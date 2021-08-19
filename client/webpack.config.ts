@@ -28,16 +28,32 @@ const config: Configuration = {
           },
         },
       },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          "style-loader",
+          // Translates CSS into CommonJS
+          "css-loader",
+          // Compiles Sass to CSS
+          "sass-loader",
+        ],
+      },
     ],
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin({
       async: false,
       eslint: {
-        files: "./src/**/*",
+        files: './src/**/*.{ts,tsx,js,jsx}',
       },
     }),
   ],
+  loader: {
+    test: /\.scss$/,
+    include: path .join(__dirname, "src"),
+    loaders: ["style", "css", "sass"]
+  },
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },
