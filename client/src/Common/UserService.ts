@@ -1,13 +1,13 @@
-import { AdminEndpoints, FetchMethods, UserEndpoints } from "../Enums/apiEnums";
+import { FetchMethods, UserEndpoints } from "../Enums/apiEnums";
 import { CacheEnums } from "../Enums/cacheEnums";
 import { UserData } from "../Interfaces/UserInterface";
+import AdminService from "./AdminService";
 import Cache from "./Cache";
 
 export default class UserService {
   static myInstance: UserService;
   cache: Cache;
   isAuthenticated = false;
-  isAdmin = false;
 
   constructor() {
     this.cache = new Cache();
@@ -20,11 +20,6 @@ export default class UserService {
     } else {
       return UserService.myInstance;
     }
-  }
-  
-  init(): void {
-    // this.cache.restoreFromLocalStorage(CacheEnums.CURRENTUSER);
-    // this.cache.restoreFromLocalStorage(CacheEnums.VIEWABLEUSERS);
   }
   
   authenticate(cb: () => void): void {
@@ -44,7 +39,7 @@ export default class UserService {
 
       const response = await fetch(process.env.PUBLIC_URL + UserEndpoints.GETUSER);
       const userData: UserData = await response.json();
-      this.isAdmin = userData.roles.includes('admin');
+      AdminService.getInstance().isAdmin = userData.roles.includes('admin');
       this.isAuthenticated = true;
       this.cache.setCurrentUser(userData);
       return userData;
@@ -62,18 +57,6 @@ export default class UserService {
       const userData: UserData = await response.json();
       this.cache.setCurrentUser(userData);
       return userData;
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
-  
-  async deleteUser(userId: number): Promise<string> {
-    try {
-      await fetch(process.env.PUBLIC_URL + AdminEndpoints.DELETEUSER, {
-        method: FetchMethods.POST,
-        body: JSON.stringify({ userId: userId })
-      });
-      return 'User was successfully deleted!';
     } catch (error) {
       throw new Error(error);
     }
