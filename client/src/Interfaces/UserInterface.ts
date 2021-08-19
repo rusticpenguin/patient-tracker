@@ -20,6 +20,7 @@ export interface UserRegistationData extends CoreUser {
 }
 
 export interface Appointment {
+  uid: string,
   provider: string,
   dateCreate?: number,
   appointmentTime: number,

@@ -15,7 +15,7 @@ const Login = (props: RouteComponentProps): ReactElement => {
   const { state } = useLocation<LocationState>();
 
   const login = () => UserService.getInstance().authenticate(() => {
-    setRedirectToReferrer(true)
+    setRedirectToReferrer(true);
   })
 
   if (redirectToReferrer === true) {

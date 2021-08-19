@@ -4,8 +4,6 @@ export enum UserEndpoints {
 }
 
 export enum AppointmentEndpoints {
-  ALLAPPOINTMENTS = '/appointments',
-  CURRENTAPPOINTMENTS = '/current-appointments',
   MAKEAPPOINTMENT = '/make-appointment',
   CANCELAPPOINTMENT = '/cancel-appointment',
 }

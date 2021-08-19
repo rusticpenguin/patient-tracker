@@ -12,7 +12,6 @@ export default class AdminService {
   constructor() {
     this.cacheService = CacheService.getInstance();
     this.cacheService.cache.subscribe((data) => {
-      console.log(data);
       this.isAdmin.next(data.currentUser?.roles.includes('admin') || false);
     })
   }
