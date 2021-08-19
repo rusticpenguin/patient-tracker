@@ -1,12 +1,12 @@
 import React, { ReactElement } from "react";
-import { Redirect, useLocation } from "react-router-dom";
+import { RouteComponentProps, useLocation, withRouter } from "react-router-dom";
 import UserService from "../Services/UserService";
 
 type LocationState = {
   from: Location;
 };
 
-export const Login = (): ReactElement => {
+const Login = (props: RouteComponentProps): ReactElement => {
   const [
     redirectToReferrer,
     setRedirectToReferrer
@@ -19,7 +19,7 @@ export const Login = (): ReactElement => {
   })
 
   if (redirectToReferrer === true) {
-    return <Redirect to={ state?.from || '/' } />
+    props.history.push(state?.from || '/');
   }
 
   return (
@@ -29,3 +29,5 @@ export const Login = (): ReactElement => {
   </div>
   );
 }
+
+export default withRouter(Login);
