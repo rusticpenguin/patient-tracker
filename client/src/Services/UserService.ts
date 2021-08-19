@@ -1,5 +1,5 @@
-import { FetchMethods, UserEndpoints } from "../Enums/apiEnums";
-import { CacheEnums } from "../Enums/cacheEnums";
+import { FetchMethods, UserEndpoints } from "../Interfaces/Enums/apiEnums";
+import { CacheEnums } from "../Interfaces/Enums/cacheEnums";
 import { UserData } from "../Interfaces/UserInterface";
 import AdminService from "./AdminService";
 import CacheService from "./CacheService";

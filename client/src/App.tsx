@@ -1,9 +1,9 @@
 import React, { ReactElement } from "react";
 import { Link, Route, BrowserRouter as Router, Switch, Redirect } from "react-router-dom";
-import UserService from "./Common/UserService";
-import AdminService from "./Common/AdminService";
-import { AdminGuard } from "./Guards/AdminGuard";
-import { LoginGuard } from "./Guards/LoginGuard";
+import UserService from "./Services/UserService";
+import AdminService from "./Services/AdminService";
+import { AdminGuard } from "./Components/Guards/AdminGuard";
+import { LoginGuard } from "./Components/Guards/LoginGuard";
 import { Error } from "./Views/Error";
 import { Login } from "./Views/Login";
 import { Splash } from "./Views/Splash";

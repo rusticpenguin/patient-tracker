@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react"
 import { Redirect, Route, RouteProps } from "react-router-dom"
-import UserService from "../Common/UserService"
+import UserService from "../../Services/UserService"
 
 
 export function LoginGuard ({ children, ...rest }: RouteProps): ReactElement {

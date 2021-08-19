@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react"
 import { Redirect, Route, RouteProps } from "react-router-dom"
-import AdminService from "../Common/AdminService"
-import UserService from "../Common/UserService"
+import AdminService from "../../Services/AdminService"
+import UserService from "../../Services/UserService"
 
 
 export function AdminGuard ({ children, ...rest }: RouteProps): ReactElement {

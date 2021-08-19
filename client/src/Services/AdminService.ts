@@ -1,5 +1,5 @@
-import { AdminEndpoints, FetchMethods } from "../Enums/apiEnums";
-import { CacheEnums } from "../Enums/cacheEnums";
+import { AdminEndpoints, FetchMethods } from "../Interfaces/Enums/apiEnums";
+import { CacheEnums } from "../Interfaces/Enums/cacheEnums";
 import { UserData } from "../Interfaces/UserInterface";
 import CacheService from "./CacheService";
 
@@ -20,7 +20,7 @@ export default class AdminService {
       return AdminService.myInstance;
     }
   }
- 
+
   async getAllUsers(): Promise<UserData[]> {
     try {
       if (!this.isAdmin) {

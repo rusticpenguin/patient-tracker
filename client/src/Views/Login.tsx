@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { Redirect, useLocation } from "react-router-dom";
-import UserService from "../Common/UserService";
+import UserService from "../Services/UserService";
 
 type LocationState = {
   from: Location;

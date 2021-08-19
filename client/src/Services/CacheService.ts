@@ -1,4 +1,4 @@
-import { CacheEnums } from "../Enums/cacheEnums";
+import { CacheEnums } from "../Interfaces/Enums/cacheEnums";
 import { CacheData, UserData } from "../Interfaces/UserInterface";
 
 export default class CacheService {
