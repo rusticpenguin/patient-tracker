@@ -6,7 +6,7 @@ import UserService from "../../Services/UserService"
 export function LoginGuard ({ children, ...rest }: RouteProps): ReactElement {
   return (
     <Route {...rest} render={({ location }) => {
-      return UserService.getInstance().isAuthenticated
+      return UserService.getInstance().IsAuthenticated()
         ? children
         : <Redirect to={{
           pathname: '/login',

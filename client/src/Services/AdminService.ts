@@ -1,3 +1,4 @@
+import { BehaviorSubject } from "rxjs";
 import { AdminEndpoints, FetchMethods } from "../Interfaces/Enums/apiEnums";
 import { CacheEnums } from "../Interfaces/Enums/cacheEnums";
 import { UserData } from "../Interfaces/UserInterface";
@@ -6,10 +7,14 @@ import CacheService from "./CacheService";
 export default class AdminService {
   static myInstance: AdminService;
   cacheService: CacheService;
-  isAdmin = false;
+  isAdmin = new BehaviorSubject(false);
 
   constructor() {
     this.cacheService = CacheService.getInstance();
+    this.cacheService.cache.subscribe((data) => {
+      console.log(data);
+      this.isAdmin.next(data.currentUser?.roles.includes('admin') || false);
+    })
   }
 
   static getInstance(): AdminService {
@@ -19,6 +24,10 @@ export default class AdminService {
     } else {
       return AdminService.myInstance;
     }
+  }
+  
+  IsAdmin(): boolean {
+    return this.isAdmin.value;
   }
 
   async getAllUsers(): Promise<UserData[]> {

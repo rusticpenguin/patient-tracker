@@ -26,7 +26,7 @@ export interface Appointment {
   isCanceled?: boolean
 }
 
-export interface CacheData {
+export type CacheData = {
   currentUser: UserData|null,
   viewableUsers: UserData[]
 }

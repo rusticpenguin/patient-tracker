@@ -1,16 +1,19 @@
+import { BehaviorSubject } from "rxjs";
 import { FetchMethods, UserEndpoints } from "../Interfaces/Enums/apiEnums";
 import { CacheEnums } from "../Interfaces/Enums/cacheEnums";
 import { UserData } from "../Interfaces/UserInterface";
-import AdminService from "./AdminService";
 import CacheService from "./CacheService";
 
 export default class UserService {
   static myInstance: UserService;
   cacheService: CacheService;
-  isAuthenticated = false;
+  isAuthenticated = new BehaviorSubject(false);
 
   constructor() {
     this.cacheService = CacheService.getInstance();
+    this.cacheService.cache.subscribe((data) => {
+      this.isAuthenticated.next(!!data.currentUser);
+    })
   }
   
   static getInstance(): UserService {
@@ -22,14 +25,18 @@ export default class UserService {
     }
   }
   
-  authenticate(callback: () => void): void {
-    this.isAuthenticated = true
-    setTimeout(callback, 100)
+  async authenticate(callback: () => void): Promise<void> {
+    await this.getUser();
+    callback();
   }
 
   signout(callback: () => void): void {
-    this.isAuthenticated = false
+    this.cacheService.clearCache();
     setTimeout(callback, 100)
+  }
+  
+  IsAuthenticated(): boolean {
+    return this.isAuthenticated.value;
   }
 
   async getUser(): Promise<UserData> {
@@ -38,12 +45,23 @@ export default class UserService {
         return this.cacheService.getCache(CacheEnums.CURRENTUSER) as UserData;
       }
 
-      const response = await fetch(process.env.PUBLIC_URL + UserEndpoints.GETUSER);
-      const userData: UserData = await response.json();
-      AdminService.getInstance().isAdmin = userData.roles.includes('admin');
-      this.isAuthenticated = true;
-      this.cacheService.setCurrentUser(userData);
-      return userData;
+      // const response = await fetch(process.env.PUBLIC_URL + UserEndpoints.GETUSER);
+      // const userData: UserData = await response.json();
+      // this.cacheService.setCurrentUser(userData);
+      this.cacheService.setCurrentUser({
+        roles: ['admin'],
+        appointments: [],
+        photoUrl: 'x',
+        lastLogin: 999,
+        accountCreated: 80,
+        uid: '99',
+        username: 'addafadf',
+        dateOfBirth: 90,
+        phoneNumber: 'dad',
+        address: 'aaa',
+        email: 'daf'
+      });
+      return this.cacheService.cache.value.currentUser as UserData;
     } catch (error) {
       throw new Error(error);
     }

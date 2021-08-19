@@ -7,7 +7,7 @@ import UserService from "../../Services/UserService"
 export function AdminGuard ({ children, ...rest }: RouteProps): ReactElement {
   return (
     <Route {...rest} render={({ location }) => {
-      return AdminService.getInstance().isAdmin && UserService.getInstance().isAuthenticated
+      return AdminService.getInstance().IsAdmin() && UserService.getInstance().IsAuthenticated()
         ? children
         : <Redirect to={{
           pathname: '/error',
