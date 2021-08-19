@@ -1,11 +1,21 @@
 import { CacheEnums } from "../Enums/cacheEnums";
 import { CacheData, UserData } from "../Interfaces/UserInterface";
 
-export default class Cache {
+export default class CacheService {
+  static myInstance: CacheService;
   cache: CacheData = {
     currentUser: null,
     viewableUsers: []
   };
+  
+  static getInstance(): CacheService {
+    if (!CacheService.myInstance) {
+      CacheService.myInstance = new CacheService();
+      return CacheService.myInstance;
+    } else {
+      return CacheService.myInstance;
+    }
+  }
   
   doesExist(cacheName: string): boolean {
     return this.cache.hasOwnProperty(cacheName);
@@ -32,29 +42,5 @@ export default class Cache {
       currentUser: null,
       viewableUsers: []
     };
-  }
-  
-  saveToLocalStorage(cacheName: CacheEnums, value: unknown): void {
-    try {
-      localStorage.setItem(cacheName, JSON.stringify(value));
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
-  
-  // restoreFromLocalStorage(cacheName: CacheEnums): unknown {
-  //   try {
-  //     const item = localStorage.getItem(cacheName) 
-  //     if (item) {
-  //       this.cache[cacheName] = localStorage.getItem(cacheName);
-  //     }
-  //     return this.cache[cacheName];
-  //   } catch (error) {
-  //     throw new Error(error);
-  //   }
-  // }
-  
-  clearLocalStorage(): void {
-    localStorage.clear();
   }
 }

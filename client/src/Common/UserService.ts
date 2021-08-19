@@ -2,15 +2,15 @@ import { FetchMethods, UserEndpoints } from "../Enums/apiEnums";
 import { CacheEnums } from "../Enums/cacheEnums";
 import { UserData } from "../Interfaces/UserInterface";
 import AdminService from "./AdminService";
-import Cache from "./Cache";
+import CacheService from "./CacheService";
 
 export default class UserService {
   static myInstance: UserService;
-  cache: Cache;
+  cacheService: CacheService;
   isAuthenticated = false;
 
   constructor() {
-    this.cache = new Cache();
+    this.cacheService = CacheService.getInstance();
   }
   
   static getInstance(): UserService {
@@ -22,26 +22,27 @@ export default class UserService {
     }
   }
   
-  authenticate(cb: () => void): void {
+  authenticate(callback: () => void): void {
     this.isAuthenticated = true
-    setTimeout(cb, 100)
+    setTimeout(callback, 100)
   }
-  signout(cb: () => void): void {
+
+  signout(callback: () => void): void {
     this.isAuthenticated = false
-    setTimeout(cb, 100)
+    setTimeout(callback, 100)
   }
 
   async getUser(): Promise<UserData> {
     try {
-      if (this.cache.getCache(CacheEnums.CURRENTUSER)) {
-        return this.cache.getCache(CacheEnums.CURRENTUSER) as UserData;
+      if (this.cacheService.getCache(CacheEnums.CURRENTUSER)) {
+        return this.cacheService.getCache(CacheEnums.CURRENTUSER) as UserData;
       }
 
       const response = await fetch(process.env.PUBLIC_URL + UserEndpoints.GETUSER);
       const userData: UserData = await response.json();
       AdminService.getInstance().isAdmin = userData.roles.includes('admin');
       this.isAuthenticated = true;
-      this.cache.setCurrentUser(userData);
+      this.cacheService.setCurrentUser(userData);
       return userData;
     } catch (error) {
       throw new Error(error);
@@ -55,7 +56,7 @@ export default class UserService {
         body: JSON.stringify(data)
       });
       const userData: UserData = await response.json();
-      this.cache.setCurrentUser(userData);
+      this.cacheService.setCurrentUser(userData);
       return userData;
     } catch (error) {
       throw new Error(error);

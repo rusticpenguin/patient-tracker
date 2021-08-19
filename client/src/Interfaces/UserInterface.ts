@@ -11,7 +11,8 @@ export interface UserData extends CoreUser {
   roles: string[],
   appointments: Appointment[],
   lastLogin: number,
-  accountCreated: number
+  accountCreated: number,
+  uid: string
 }
 
 export interface UserRegistationData extends CoreUser {
