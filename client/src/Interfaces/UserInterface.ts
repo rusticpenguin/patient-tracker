@@ -26,6 +26,6 @@ export interface Appointment {
 }
 
 export interface CacheData {
-  currentUser: UserData,
+  currentUser: UserData|null,
   viewableUsers: UserData[]
 }
