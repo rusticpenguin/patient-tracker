@@ -27,8 +27,9 @@ export function Nav(): ReactElement {
         <li><Link to="/">Home Page</Link></li>
         <li><Link to="/dashboard">Dashboard Page</Link></li>
         { admin && authenticated && 
-            <li><Link to="/admin">Admin Page</Link></li> }
-            
+          <li><Link to="/admin">Admin Page</Link></li> 
+        }
+        
         { authenticated && <li><Logout /></li>}
       </ul>
     </nav>
