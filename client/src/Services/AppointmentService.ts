@@ -26,6 +26,10 @@ export default class AppointmentService {
 
   async makeAppointment(appointment: Appointment): Promise<string> {
     try {
+      if (!this.isAuthenticated) {
+        throw Error('User is not logged in!');
+      }
+
       const response = await fetch(process.env.PUBLIC_URL + AppointmentEndpoints.MAKEAPPOINTMENT, {
         method: FetchMethods.POST,
         body: JSON.stringify(appointment)
@@ -39,6 +43,10 @@ export default class AppointmentService {
   
   async cancelAppointment(appointmentId: string): Promise<string> {
     try {
+      if (!this.isAuthenticated) {
+        throw Error('User is not logged in!');
+      }
+
       const response = await fetch(process.env.PUBLIC_URL + AppointmentEndpoints.CANCELAPPOINTMENT, {
         method: FetchMethods.PUT,
         body: JSON.stringify(appointmentId)

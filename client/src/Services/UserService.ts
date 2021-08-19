@@ -30,9 +30,9 @@ export default class UserService {
     callback();
   }
 
-  signout(callback: () => void): void {
-    this.cacheService.clearCache();
-    setTimeout(callback, 100)
+  async signout(callback: () => void): Promise<void> {
+    await this.cacheService.clearCache();
+    callback();
   }
   
   IsAuthenticated(): boolean {
@@ -69,6 +69,10 @@ export default class UserService {
   
   async updateUser(data: UserData): Promise<UserData> {
     try {
+      if (!this.isAuthenticated) {
+        throw Error('User is not logged in!');
+      }
+
       const response = await fetch(process.env.PUBLIC_URL + UserEndpoints.UPDATEUSER, {
         method: FetchMethods.PUT,
         body: JSON.stringify(data)
